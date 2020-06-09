@@ -5,7 +5,7 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
     body
-        h1 Editar
-        //form(action=`/tasks/${task.id}?_method=PUT` method="POST")
-            textarea(name="description", cols="30", rows="10" placeholder="Cola aqui tu pendiente a realizar")= task.description
+        h1 New
+        //form(action="/tasks" method="POST")
+            textarea(name="description", cols="30", rows="10" placeholder="Cola aqui tu pendiente a realizar")
             input(type="submit", value="Guardar")

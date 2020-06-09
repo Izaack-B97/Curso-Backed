@@ -1,3 +1,4 @@
+const categoryRoutes = require('./routers/categorias_routes');
 const taskRoutes = require('./routers/tasks_routes');
 const registrationsRoutes = require('./routers/registrations_routes');
 const sessionsRoutes = require('./routers/session_routes');
@@ -29,9 +30,11 @@ app.use(findUserMiddleware);
 app.use(authUserMiddleware);
 
 // Routes
+app.use(categoryRoutes);
 app.use(taskRoutes);
 app.use(registrationsRoutes);
 app.use(sessionsRoutes)
+
 
 app.get('/', (req, res) => {
     res.render('home', { user: req.user });

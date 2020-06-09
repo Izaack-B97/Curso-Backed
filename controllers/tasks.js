@@ -1,18 +1,20 @@
 const Task = require('../models').Task;
+const User = require('../models').User;
 
 module.exports = {
     index: (req, res) => {
         Task.findAll()
           .then(result => {
-            res.render('tasks/index', { tasks: result});
+            res.render('tasks/index', { tasks: req.user.tasks});
           })
           .catch(err => {
             res.json(err);
           })
     },
     show: (req, res) => {
-        Task.findByPk(req.params.id)
+        Task.findByPk(req.params.id, { include: [{ model:User, as: 'user' }] }) // Include se le puede pasar el modelo o el nombre de la relacion
           .then(task => {
+            // console.log(task);
             res.render('tasks/show', { task })
           }).catch((err) => {
             res.json(err);
@@ -20,7 +22,7 @@ module.exports = {
     },
     create: (req, res) => {
             
-        Task.create({ description: req.body.description })
+        Task.create({ description: req.body.description, userId: req.user.id})
         .then(result => {
           res.json(result);
         }).catch(err => {

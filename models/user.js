@@ -38,7 +38,9 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
     // hasMany -> Tiene muchos , belongTo -> Le pertenece A
-    User.hasMany(models.Task); 
+    User.hasMany(models.Task, {
+      as: 'tasks'
+    }); 
   };
   User.beforeCreate(function(user, options){
     return new Promise((res, rej) => {
