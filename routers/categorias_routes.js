@@ -2,16 +2,20 @@ const CategoryController = require('../controllers/categorias');
 const express = require('express');
 const router = express.Router();
 
-router.route('/categorys')
-    .get(CategoryController.index);
+router.route('/categories')
+    .get(CategoryController.index)
+    .post(CategoryController.create);
 
-router.get('/categorys/new', CategoryController.new);
+router.route('/categories/new')
+    .get(CategoryController.new);
 
-router.get('/categorys/:id/edit', CategoryController.edit);
+router.route('/categories/:id/edit')
+    .get(CategoryController.edit);
 
-// router.route('/categorys/:id')
-//     .get(CategoryController.show)
-//     .put(CategoryController.update)
-//     .delete(CategoryController.destroy);
+router.route('/categories/:id')
+    .get(CategoryController.show)
+    .put(CategoryController.update)
+    .delete(CategoryController.destroy);
+
 
 module.exports = router;

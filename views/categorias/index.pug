@@ -6,3 +6,8 @@ html(lang="en")
         title Document
     body
         h1 Categorias
+        ul    
+            each val in categorias 
+                li
+                    h3= val.title 
+                        |&nbsp;-&nbsp;#{ small= val.color }
