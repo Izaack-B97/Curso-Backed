@@ -14,6 +14,8 @@ const sqlite3 = require('sqlite3');
 const bodyParser = require('body-parser');
 const express = require('express');
 
+const socketio = require('socket.io');
+
 const app = express();
 
 
@@ -40,6 +42,20 @@ app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
 
-app.listen(3000, () => {
+let server = app.listen(3000, () => {
     console.log('Server on port 3000');
+});
+
+// Enlazamos el servidor con el socket
+let io = socketio(server);
+let usersCount = 0;
+
+io.on('connection', socket => { // Evento que se dispara cuando hay una conexion
+    usersCount ++;
+
+    io.emit('count_updated', { count: usersCount }); // Emite el evento que se mandara al cliente junto con los datos
+
+    socket.on('disconnect',() => { // Se dispara cuando se desconecta
+        usersCount--;
+    }) 
 });

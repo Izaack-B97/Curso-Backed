@@ -5,6 +5,15 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Home
     body
-        h1= user.email 
+        h1= user.email
+        p Usuaurios conectados:
+            span#connected 
         form(action="/sessions?_method=DELETE", method="POST")
             input(type="submit" value="Cerrar sesion")
+        script(src="/socket.io/socket.io.js") // Al momento de enlazar el server con socket.io con el server publica ese script automaticamente donde se encuentra toda la logica del socket
+        script.
+            let socket = io.connect(); // Si se pasa basio busca el socket de manera local
+
+            socket.on('count_updated', data => {
+                document.querySelector('#connected').innerHTML = data.count; 
+            }); 

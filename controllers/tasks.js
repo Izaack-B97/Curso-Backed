@@ -34,10 +34,28 @@ module.exports = {
       Task.update({ description: req.body.description }, {
         where: { id: req.params.id }
       })
-      .then(result => {
+      .then(task => {
         res.redirect('/tasks/' + req.params.id);
       })
       .catch(err => res.json(err) );
+
+      // let task = Task.findByPk(req.params.id)
+      //   .then(task => {
+      //     task.description = req.body.description;
+      //     task.save()
+      //       .then(() => {
+      //         let categoryIds = req.body.categories.split(',');
+
+      //         task.addCategories(categoryIds)
+      //           .then(() => {
+      //             res.redirect(`/tasks/${task.id}`);
+      //           });
+      //       });
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //     res.json(err)
+      //   })
     },
     edit: (req, res) => {
       Task.findByPk(req.params.id)
