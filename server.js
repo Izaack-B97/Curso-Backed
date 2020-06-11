@@ -59,3 +59,6 @@ io.on('connection', socket => { // Evento que se dispara cuando hay una conexion
         usersCount--;
     }) 
 });
+
+
+const client = require('./realtime/client');
