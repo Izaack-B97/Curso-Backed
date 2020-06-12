@@ -40,7 +40,6 @@ module.exports = (sequelize, DataTypes) => {
     // hasMany -> Tiene muchos , belongTo -> Le pertenece A
     User.hasMany(models.Task, {
       as: 'tasks',
-      foreignKey: 'userId'
     }); 
   };
   User.beforeCreate(function(user, options){
