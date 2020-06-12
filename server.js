@@ -3,7 +3,6 @@ const taskRoutes = require('./routers/tasks_routes');
 const registrationsRoutes = require('./routers/registrations_routes');
 const sessionsRoutes = require('./routers/session_routes');
 
-
 const findUserMiddleware = require('./middlewars/find_user');
 const authUserMiddleware = require('./middlewars/auth_user');
 
@@ -49,16 +48,40 @@ let server = app.listen(3000, () => {
 // Enlazamos el servidor con el socket
 let io = socketio(server);
 let usersCount = 0;
+let sockets = {};
+
+
 
 io.on('connection', socket => { // Evento que se dispara cuando hay una conexion
-    usersCount ++;
+    console.log(sockets);
+    let userId = socket.request._query.loggeduser;
+    // console.log(userId);
+    if(userId) sockets[userId] = socket;
 
+    usersCount ++;
     io.emit('count_updated', { count: usersCount }); // Emite el evento que se mandara al cliente junto con los datos
 
+    socket.on('new_task', (data) => {
+        //console.log(data);
+        if (data.userId) {
+            let userSocket = sockets[data.userId];
+            if(!userSocket) return;
+
+            userSocket.emit('new_task', data);
+        }
+        io.emit('new_task', { data: data })
+    }); 
+
     socket.on('disconnect',() => { // Se dispara cuando se desconecta
+        Object.keys(sockets).forEach(userId => { // Permite iterar los keys de un array de sockers
+            let s = sockets[userId];
+            if(s.id == socket.id) sockets[userId] = null;
+        })
+
         usersCount--;
+        io.emit('count_updated', { count: usersCount }); // Emite el evento que se mandara al cliente junto con los datos
     }) 
 });
 
-
 const client = require('./realtime/client');
+const { Socket } = require('socket.io-client');

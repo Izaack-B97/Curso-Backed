@@ -24,7 +24,8 @@ module.exports = {
             
         Task.create({ description: req.body.description, userId: req.user.id})
         .then(result => {
-          res.json(result);
+          // res.json(result);
+          res.redirect('/')
         }).catch(err => {
           res.json(err);
         });

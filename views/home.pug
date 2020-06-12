@@ -5,6 +5,7 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Home
     body
+        p#id= user.id
         h1= user.email
         p Usuaurios conectados:
             span#connected 
@@ -12,8 +13,17 @@ html(lang="en")
             input(type="submit" value="Cerrar sesion")
         script(src="/socket.io/socket.io.js") // Al momento de enlazar el server con socket.io con el server publica ese script automaticamente donde se encuentra toda la logica del socket
         script.
-            let socket = io.connect(); // Si se pasa basio busca el socket de manera local
-
+            let id = document.querySelector('#id').innerHTML;
+            let socket = io.connect(window.location.origin, { query: `loggeduser=${id}` }); // Si se pasa basio busca el socket de manera local
+            console.log(window.location.origin)
             socket.on('count_updated', data => {
+                console.log('dsd')
                 document.querySelector('#connected').innerHTML = data.count; 
             }); 
+
+            socket.on('new_task', data => {
+                console.log('Carsy');
+            });
+
+           
+           
