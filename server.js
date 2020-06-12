@@ -36,7 +36,6 @@ app.use(taskRoutes);
 app.use(registrationsRoutes);
 app.use(sessionsRoutes)
 
-
 app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });

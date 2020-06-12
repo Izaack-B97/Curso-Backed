@@ -39,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     // hasMany -> Tiene muchos , belongTo -> Le pertenece A
     User.hasMany(models.Task, {
-      as: 'tasks'
+      as: 'tasks',
+      foreignKey: 'userId'
     }); 
   };
   User.beforeCreate(function(user, options){
